@@ -14,7 +14,7 @@ export function createDevice(params: {
     assetTag: params.assetTag?.trim() || undefined,
     model: params.model?.trim() || undefined,
     batchId: params.batchId,
-    status: "received",
+    status: "scanned",
     createdAt: now,
     updatedAt: now,
   };

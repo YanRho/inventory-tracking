@@ -1,4 +1,4 @@
-import type { Device } from "@/domain/device/types";
+import type { Device, DeviceStatus } from "@/domain/device/types";
 import { normalizeSerialNumber } from "@/domain/device/deviceFactory";
 import type { InventoryRepository } from "./InventoryRepository";
 import { DEVICES_STORE, getDb } from "./db";
@@ -51,6 +51,22 @@ export class IndexedDbInventoryRepository implements InventoryRepository {
       throw new Error(`Serial number "${device.serialNumber}" already exists.`);
     }
     await db.put(DEVICES_STORE, device);
+    deviceEvents.emit();
+  }
+
+  async updateDevicesStatus(ids: string[], status: DeviceStatus): Promise<void> {
+    if (ids.length === 0) return;
+    const db = await getDb();
+    const tx = db.transaction(DEVICES_STORE, "readwrite");
+    const now = new Date().toISOString();
+    await Promise.all(
+      ids.map(async (id) => {
+        const device = await tx.store.get(id);
+        if (!device) return;
+        await tx.store.put({ ...device, status, updatedAt: now });
+      })
+    );
+    await tx.done;
     deviceEvents.emit();
   }
 

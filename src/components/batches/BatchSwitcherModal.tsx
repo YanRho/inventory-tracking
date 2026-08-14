@@ -8,7 +8,7 @@ interface BatchSwitcherModalProps {
   batches: Batch[];
   activeBatchId: string | null;
   onSelect: (id: string) => void | Promise<void>;
-  onCreate: (name: string) => Promise<Batch>;
+  onCreate: (name: string, expectedCount?: number) => Promise<Batch>;
   onClose: () => void;
 }
 
@@ -20,6 +20,7 @@ export function BatchSwitcherModal({
   onClose,
 }: BatchSwitcherModalProps) {
   const [name, setName] = useState("");
+  const [expectedCount, setExpectedCount] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
 
@@ -28,8 +29,10 @@ export function BatchSwitcherModal({
     setCreating(true);
     setError(null);
     try {
-      await onCreate(name.trim());
+      const parsedExpectedCount = expectedCount.trim() ? Number(expectedCount) : undefined;
+      await onCreate(name.trim(), parsedExpectedCount);
       setName("");
+      setExpectedCount("");
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not create batch.");
@@ -54,7 +57,10 @@ export function BatchSwitcherModal({
               onClose();
             }}
           >
-            <span>{batch.name}</span>
+            <span>
+              {batch.name}
+              {batch.expectedCount ? ` (expecting ${batch.expectedCount})` : ""}
+            </span>
             {batch.id === activeBatchId && <span>✓</span>}
           </button>
         ))}
@@ -71,6 +77,24 @@ export function BatchSwitcherModal({
             placeholder="e.g. AUG13-01"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") void handleCreate();
+            }}
+          />
+        </div>
+        <div className="field">
+          <label className="field__label" htmlFor="new-batch-expected">
+            Expected products (optional)
+          </label>
+          <input
+            id="new-batch-expected"
+            className="input"
+            type="number"
+            inputMode="numeric"
+            min={1}
+            placeholder="e.g. 50"
+            value={expectedCount}
+            onChange={(e) => setExpectedCount(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") void handleCreate();
             }}

@@ -85,7 +85,9 @@ export default function ScanPage() {
 
       <div className="scanner-screen__bottom">
         <span className="scanner-screen__count">
-          ✓ {batchDeviceCount} {batchDeviceCount === 1 ? "device" : "devices"} scanned
+          ✓ {batchDeviceCount}
+          {activeBatch.expectedCount ? ` / ${activeBatch.expectedCount}` : ""}{" "}
+          {batchDeviceCount === 1 ? "product" : "products"} scanned
         </span>
         <button
           type="button"

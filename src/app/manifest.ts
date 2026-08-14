@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Chromebook Inventory",
-    short_name: "Inventory",
-    description: "Scan and track Chromebook inventory during device deployment.",
+    name: "Scan Inventory",
+    short_name: "Scan Inventory",
+    description: "Scan and track inventory during product deployment.",
     start_url: "/",
     display: "standalone",
     background_color: "#f5f6f8",

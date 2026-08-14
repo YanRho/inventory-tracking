@@ -29,7 +29,7 @@ export function ScanFeedbackOverlay({ feedback, onDismiss }: ScanFeedbackOverlay
           <span className="scanner-feedback__icon">✓</span>
           <span>SCANNED</span>
           <span className="scanner-feedback__serial">{feedback.device.serialNumber}</span>
-          <span className="scanner-feedback__meta">Device #{feedback.deviceNumber}</span>
+          <span className="scanner-feedback__meta">Product #{feedback.deviceNumber}</span>
         </div>
       </div>
     );
@@ -53,7 +53,7 @@ export function ScanFeedbackOverlay({ feedback, onDismiss }: ScanFeedbackOverlay
             style={{ flex: 1 }}
             onClick={() => router.push(`/devices/${feedback.device.id}`)}
           >
-            View Device
+            View Product
           </button>
           <button
             type="button"

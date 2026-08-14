@@ -17,7 +17,7 @@ export function ScannerView({ videoRef, status, error }: ScannerViewProps) {
       {status === "running" && (
         <div className="scanner-screen__viewfinder">
           <div className="scanner-screen__frame" />
-          <div className="scanner-screen__hint">Point camera at serial barcode</div>
+          <div className="scanner-screen__hint">Point camera at barcode or QR code</div>
         </div>
       )}
 

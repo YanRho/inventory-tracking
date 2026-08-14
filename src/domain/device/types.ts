@@ -1,11 +1,4 @@
-export type DeviceStatus =
-  | "received"
-  | "updating"
-  | "enrolling"
-  | "enrolled"
-  | "verified"
-  | "complete"
-  | "failed";
+export type DeviceStatus = "scanned" | "configuring" | "packed" | "finished";
 
 export interface Device {
   id: string;
@@ -19,22 +12,11 @@ export interface Device {
   notes?: string;
 }
 
-export const DEVICE_STATUSES: DeviceStatus[] = [
-  "received",
-  "updating",
-  "enrolling",
-  "enrolled",
-  "verified",
-  "complete",
-  "failed",
-];
+export const DEVICE_STATUSES: DeviceStatus[] = ["scanned", "configuring", "packed", "finished"];
 
 export const DEVICE_STATUS_LABELS: Record<DeviceStatus, string> = {
-  received: "Received",
-  updating: "Updating",
-  enrolling: "Enrolling",
-  enrolled: "Enrolled",
-  verified: "Verified",
-  complete: "Complete",
-  failed: "Failed",
+  scanned: "Scanned",
+  configuring: "Configuring",
+  packed: "Packed",
+  finished: "Finished",
 };

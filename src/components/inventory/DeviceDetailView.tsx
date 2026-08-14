@@ -37,7 +37,7 @@ export function DeviceDetailView({ id }: { id: string }) {
     return (
       <div className="page">
         <div className="empty-state">
-          <p>Device not found.</p>
+          <p>Product not found.</p>
           <button type="button" className="btn btn--secondary" onClick={() => router.push("/inventory")}>
             Back to Inventory
           </button>

@@ -39,13 +39,13 @@ export function useBatches() {
     }
   }, [loading, activeBatchId, batches]);
 
-  const createBatch = useCallback(async (name: string) => {
+  const createBatch = useCallback(async (name: string, expectedCount?: number) => {
     const trimmed = name.trim();
     if (!trimmed) throw new Error("Batch name is required.");
     const repo = getBatchRepository();
     const existing = await repo.findByName(trimmed);
     if (existing) throw new Error(`Batch "${trimmed}" already exists.`);
-    const batch = buildBatch(trimmed);
+    const batch = buildBatch(trimmed, expectedCount);
     await repo.createBatch(batch);
     await repo.setActiveBatchId(batch.id);
     return batch;
