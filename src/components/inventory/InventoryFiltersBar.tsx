@@ -13,7 +13,7 @@ export function InventoryFiltersBar({ filters, batches, onChange }: InventoryFil
     <div className="filters-bar">
       <input
         className="input"
-        placeholder="Search serial or asset tag"
+        placeholder="Search serial number"
         value={filters.search}
         onChange={(e) => onChange({ search: e.target.value })}
       />

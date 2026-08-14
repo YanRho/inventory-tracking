@@ -15,17 +15,17 @@ export function DeviceDetailView({ id }: { id: string }) {
   const router = useRouter();
 
   const [loadedDeviceId, setLoadedDeviceId] = useState<string | null>(null);
-  const [assetTag, setAssetTag] = useState("");
   const [model, setModel] = useState("");
   const [batchId, setBatchId] = useState("");
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   if (device && device.id !== loadedDeviceId) {
     setLoadedDeviceId(device.id);
-    setAssetTag(device.assetTag ?? "");
     setModel(device.model ?? "");
     setBatchId(device.batchId);
     setNotes(device.notes ?? "");
@@ -58,7 +58,6 @@ export function DeviceDetailView({ id }: { id: string }) {
       const repo = getInventoryRepository();
       await repo.updateDevice({
         ...device,
-        assetTag: assetTag.trim() || undefined,
         model: model.trim() || undefined,
         batchId,
         notes: notes.trim() || undefined,
@@ -70,6 +69,16 @@ export function DeviceDetailView({ id }: { id: string }) {
       setError(err instanceof Error ? err.message : "Failed to save.");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      await getInventoryRepository().deleteDevice(device.id);
+      router.push("/inventory");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -90,17 +99,6 @@ export function DeviceDetailView({ id }: { id: string }) {
       </div>
 
       <div className="card stack">
-        <div className="field">
-          <label className="field__label" htmlFor="assetTag">
-            Asset Tag
-          </label>
-          <input
-            id="assetTag"
-            className="input"
-            value={assetTag}
-            onChange={(e) => setAssetTag(e.target.value)}
-          />
-        </div>
         <div className="field">
           <label className="field__label" htmlFor="model">
             Model
@@ -155,6 +153,40 @@ export function DeviceDetailView({ id }: { id: string }) {
           <span className="text-muted">Last Updated</span>
           <span>{formatDateTime(device.updatedAt)}</span>
         </div>
+      </div>
+
+      <div className="card stack">
+        {confirmingDelete ? (
+          <>
+            <span>Delete this product? This can&apos;t be undone.</span>
+            <div className="filters-row">
+              <button
+                type="button"
+                className="btn btn--secondary"
+                disabled={deleting}
+                onClick={() => setConfirmingDelete(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn--danger"
+                disabled={deleting}
+                onClick={handleDelete}
+              >
+                {deleting ? "Deleting…" : "Delete"}
+              </button>
+            </div>
+          </>
+        ) : (
+          <button
+            type="button"
+            className="btn btn--danger btn--block"
+            onClick={() => setConfirmingDelete(true)}
+          >
+            Delete Product
+          </button>
+        )}
       </div>
     </div>
   );

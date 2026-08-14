@@ -22,11 +22,7 @@ export function filterDevices(devices: Device[], filters: InventoryFilters): Dev
   const filtered = devices.filter((device) => {
     if (filters.batchId !== "all" && device.batchId !== filters.batchId) return false;
     if (filters.status !== "all" && device.status !== filters.status) return false;
-    if (search) {
-      const matchesSerial = device.serialNumber.toLowerCase().includes(search);
-      const matchesAssetTag = (device.assetTag ?? "").toLowerCase().includes(search);
-      if (!matchesSerial && !matchesAssetTag) return false;
-    }
+    if (search && !device.serialNumber.toLowerCase().includes(search)) return false;
     return true;
   });
 

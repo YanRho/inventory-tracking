@@ -4,7 +4,6 @@ import { formatDateTime } from "@/lib/formatting";
 
 export const EXPORT_COLUMNS = [
   "Serial Number",
-  "Asset Tag",
   "Model",
   "Batch",
   "Status",
@@ -15,7 +14,6 @@ export const EXPORT_COLUMNS = [
 
 export interface ExportRow {
   "Serial Number": string;
-  "Asset Tag": string;
   Model: string;
   Batch: string;
   Status: string;
@@ -30,7 +28,6 @@ export function buildExportRows(
 ): ExportRow[] {
   return devices.map((device) => ({
     "Serial Number": device.serialNumber,
-    "Asset Tag": device.assetTag ?? "",
     Model: device.model ?? "",
     Batch: batchNameById.get(device.batchId) ?? device.batchId,
     Status: DEVICE_STATUS_LABELS[device.status],
