@@ -3,7 +3,7 @@ export type DeviceStatus = "scanned" | "configuring" | "packed" | "finished";
 export interface Device {
   id: string;
   serialNumber: string;
-  model?: string;
+  itemName?: string;
   batchId: string;
   status: DeviceStatus;
   createdAt: string;

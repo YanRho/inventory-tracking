@@ -7,5 +7,5 @@ export function buildExportFilename(params: {
 }): string {
   const scopePart = params.scope === "all" ? "all" : slugifyForFilename(params.scope);
   const datePart = formatDateForFilename(params.date);
-  return `chromebook-inventory-${scopePart}-${datePart}.${params.extension}`;
+  return `product-inventory-${scopePart}-${datePart}.${params.extension}`;
 }

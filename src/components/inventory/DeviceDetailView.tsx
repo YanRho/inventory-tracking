@@ -15,7 +15,7 @@ export function DeviceDetailView({ id }: { id: string }) {
   const router = useRouter();
 
   const [loadedDeviceId, setLoadedDeviceId] = useState<string | null>(null);
-  const [model, setModel] = useState("");
+  const [itemName, setItemName] = useState("");
   const [batchId, setBatchId] = useState("");
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
@@ -26,7 +26,7 @@ export function DeviceDetailView({ id }: { id: string }) {
 
   if (device && device.id !== loadedDeviceId) {
     setLoadedDeviceId(device.id);
-    setModel(device.model ?? "");
+    setItemName(device.itemName ?? "");
     setBatchId(device.batchId);
     setNotes(device.notes ?? "");
   }
@@ -58,7 +58,7 @@ export function DeviceDetailView({ id }: { id: string }) {
       const repo = getInventoryRepository();
       await repo.updateDevice({
         ...device,
-        model: model.trim() || undefined,
+        itemName: itemName.trim() || undefined,
         batchId,
         notes: notes.trim() || undefined,
         updatedAt: new Date().toISOString(),
@@ -100,14 +100,14 @@ export function DeviceDetailView({ id }: { id: string }) {
 
       <div className="card stack">
         <div className="field">
-          <label className="field__label" htmlFor="model">
-            Model
+          <label className="field__label" htmlFor="itemName">
+            Item Name
           </label>
           <input
-            id="model"
+            id="itemName"
             className="input"
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
+            value={itemName}
+            onChange={(e) => setItemName(e.target.value)}
           />
         </div>
         <div className="field">

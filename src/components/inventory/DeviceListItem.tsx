@@ -35,7 +35,7 @@ export function DeviceListItem({
         <StatusBadge status={device.status} />
       </div>
       <div className="device-row__meta">
-        {device.model && <span>{device.model}</span>}
+        {device.itemName && <span>{device.itemName}</span>}
         <span>{batchName}</span>
       </div>
       <div className="device-row__meta">

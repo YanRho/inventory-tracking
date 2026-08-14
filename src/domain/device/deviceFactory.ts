@@ -4,13 +4,13 @@ import type { Device } from "./types";
 export function createDevice(params: {
   serialNumber: string;
   batchId: string;
-  model?: string;
+  itemName?: string;
 }): Device {
   const now = new Date().toISOString();
   return {
     id: uuidv4(),
     serialNumber: normalizeSerialNumber(params.serialNumber),
-    model: params.model?.trim() || undefined,
+    itemName: params.itemName?.trim() || undefined,
     batchId: params.batchId,
     status: "scanned",
     createdAt: now,
